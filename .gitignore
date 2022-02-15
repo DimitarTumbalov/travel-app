@@ -149,3 +149,6 @@ fabric.properties
 .vscode/
 .idea/
 /app/release
+
+# Test
+test/
