@@ -5,7 +5,7 @@
     <item
         android:id="@+id/help"
         android:icon="@drawable/ic_search"
-        android:title="Search"
+        android:title="@string/search"
         app:actionLayout="@layout/custom_search_view"
         app:showAsAction="always|collapseActionView" />
 

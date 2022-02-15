@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Travel App</string>
+    <string name="cd_icon_city">Icon of city</string>
+    <string name="city_name">City Name</string>
+    <string name="description">Description</string>
+    <string name="add_city">Add City</string>
+    <string name="search">Search</string>
 </resources>

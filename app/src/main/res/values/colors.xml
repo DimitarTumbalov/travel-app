@@ -9,6 +9,13 @@
     <color name="white">#FFFFFFFF</color>
     <color name="transparent">#00000000</color>
 
+    <color name="primary">@color/purple_500</color>
+    <color name="primaryVariant">@color/purple_700</color>
+    <color name="secondary">@color/teal_200</color>
+    <color name="secondaryVariant">@color/teal_700</color>
+
+    <color name="background">@color/white</color>
+
     <color name="text_high">#212121</color>
     <color name="text_medium">#666666</color>
     <color name="text_disabled">#9e9e9e</color>
