@@ -67,8 +67,8 @@ class CitiesFragment : Fragment() {
                 binding.noCities.isVisible = adapter?.itemCount ?: 0 <= 0
             }
 
-            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-                super.onItemRangeInserted(positionStart, itemCount)
+            override fun onChanged() {
+                super.onChanged()
 
                 binding.noCities.isVisible = adapter?.itemCount ?: 0 <= 0
             }

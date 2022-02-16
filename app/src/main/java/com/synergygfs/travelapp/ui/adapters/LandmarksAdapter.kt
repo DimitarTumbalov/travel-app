@@ -56,8 +56,7 @@ class LandmarksAdapter(
                 if (UiUtils.getFragmentByTag(activity, LandmarkFragment.TAG) == null) {
                     val landmarkFragment = LandmarkFragment()
                     val args = Bundle()
-                    args.putString("landmarkName", landmark.name)
-                    args.putString("landmarkDescription", landmark.description)
+                    args.putParcelable("landmark", landmark)
                     landmarkFragment.arguments = args
 
                     UiUtils.addFragment(

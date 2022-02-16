@@ -1,3 +1,7 @@
 package com.synergygfs.travelapp.data.models
 
-class City(var id: Int, var name: String, var description: String)
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
+class City(var id: Int = -1, var name: String = "", var description: String = "") : Parcelable

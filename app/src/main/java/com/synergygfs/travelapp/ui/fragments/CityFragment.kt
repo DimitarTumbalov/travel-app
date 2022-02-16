@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionInflater
 import com.synergygfs.travelapp.R
+import com.synergygfs.travelapp.data.models.City
 import com.synergygfs.travelapp.data.models.Landmark
 import com.synergygfs.travelapp.databinding.FragmentCityBinding
 import com.synergygfs.travelapp.ui.MainActivity
@@ -50,11 +51,11 @@ class CityFragment : Fragment() {
         val description = binding.description
 
         // Retrieve the passed data
-        val cityId = arguments?.getInt("cityId") ?: -1
-        binding.name.text = arguments?.getString("cityName") ?: ""
-        description.text = arguments?.getString("cityDescription") ?: ""
+        val city = arguments?.getParcelable("city") ?: City()
+        binding.name.text = city.name
+        description.text = city.description
 
-        landmarksCollection = activity?.dbHelper?.getLandmarksByCityId(cityId) ?: Vector()
+        landmarksCollection = activity?.dbHelper?.getLandmarksByCityId(city.id) ?: Vector()
 
         // Set up the LandmarksAdapter
         val landmarksRv = binding.landmarksRv
@@ -81,12 +82,11 @@ class CityFragment : Fragment() {
                 binding.noLandmarks.isVisible = adapter?.itemCount ?: 0 <= 0
             }
 
-            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-                super.onItemRangeInserted(positionStart, itemCount)
+            override fun onChanged() {
+                super.onChanged()
 
                 binding.noLandmarks.isVisible = adapter?.itemCount ?: 0 <= 0
             }
-
         })
 
         // Expand/collapse description TextView on click
@@ -102,7 +102,7 @@ class CityFragment : Fragment() {
                 if (UiUtils.getFragmentByTag(activity, AddLandmarkFragment.TAG) == null) {
                     val addLandmarkFragment = AddLandmarkFragment()
                     val args = Bundle()
-                    args.putInt("cityId", cityId)
+                    args.putInt("cityId", city.id)
                     addLandmarkFragment.arguments = args
 
                     UiUtils.addFragment(

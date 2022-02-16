@@ -57,9 +57,7 @@ class CitiesAdapter(
                 if (UiUtils.getFragmentByTag(activity, CityFragment.TAG) == null) {
                     val cityFragment = CityFragment()
                     val args = Bundle()
-                    args.putInt("cityId", city.id)
-                    args.putString("cityName", city.name)
-                    args.putString("cityDescription", city.description)
+                    args.putParcelable("city", city)
                     cityFragment.arguments = args
 
                     UiUtils.addFragment(

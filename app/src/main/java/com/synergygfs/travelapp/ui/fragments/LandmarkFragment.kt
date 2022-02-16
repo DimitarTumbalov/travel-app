@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.transition.TransitionInflater
 import com.synergygfs.travelapp.R
+import com.synergygfs.travelapp.data.models.Landmark
 import com.synergygfs.travelapp.databinding.FragmentLandmarkBinding
 
 class LandmarkFragment : Fragment() {
@@ -32,11 +33,10 @@ class LandmarkFragment : Fragment() {
         )
 
         // Retrieve the passed data
-        val landmarkName = arguments?.getString("landmarkName") ?: "Unknown"
-        val landmarkDescription = arguments?.getString("landmarkDescription") ?: "Unknown"
+        val landmark = arguments?.getParcelable("landmark") ?: Landmark()
 
-        binding.name.text = landmarkName
-        binding.description.text = landmarkDescription
+        binding.name.text = landmark.name
+        binding.description.text = landmark.description
 
         return binding.root
     }
