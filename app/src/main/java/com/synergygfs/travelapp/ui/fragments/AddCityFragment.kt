@@ -80,7 +80,6 @@ class AddCityFragment : Fragment() {
                         adapter?.notifyItemInserted(adapter?.itemCount ?: 0)
                     }
 
-                    clearFields()
                     Toast.makeText(activity, "Inserted in row $newRowId", Toast.LENGTH_SHORT).show()
                     activity.onBackPressed()
                 } else
@@ -95,11 +94,6 @@ class AddCityFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         menu.clear()
         super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    private fun clearFields() {
-        binding.name.setText("")
-        binding.description.setText("")
     }
 
     companion object {
