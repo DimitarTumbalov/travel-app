@@ -2,7 +2,9 @@ package com.synergygfs.travelapp.ui.fragments
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -23,12 +25,6 @@ class CitiesFragment : Fragment() {
     var adapter: CitiesAdapter? = null
 
     var citiesCollection = Vector<City>()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        setHasOptionsMenu(true)
-    }
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreateView(
@@ -71,11 +67,6 @@ class CitiesFragment : Fragment() {
         }
 
         return binding.root
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_cities, menu)
-        super.onCreateOptionsMenu(menu, inflater)
     }
 
     companion object {

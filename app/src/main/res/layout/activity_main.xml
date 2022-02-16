@@ -22,8 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="@color/primary"
-                app:menu="@menu/menu_cities"
-                app:title="Travel App"
+                app:title="Cities"
                 app:titleTextAppearance="@style/p_bold" />
 
         </com.google.android.material.appbar.AppBarLayout>

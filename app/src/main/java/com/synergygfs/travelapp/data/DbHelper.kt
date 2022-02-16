@@ -6,6 +6,7 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.provider.BaseColumns
+import com.synergygfs.travelapp.Constants.Companion.DELETION_ERROR_CITY_WITH_LANDMARKS
 import com.synergygfs.travelapp.data.TravelAppContractContract.CityEntity
 import com.synergygfs.travelapp.data.TravelAppContractContract.LandmarkEntity
 import com.synergygfs.travelapp.data.models.City
@@ -14,6 +15,8 @@ import java.util.*
 
 class DbHelper(context: Context) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
+
+    private var sQLiteDb: SQLiteDatabase? = null
 
     override fun onConfigure(db: SQLiteDatabase) {
         db.setForeignKeyConstraintsEnabled(true)
@@ -36,10 +39,17 @@ class DbHelper(context: Context) :
         onUpgrade(db, oldVersion, newVersion)
     }
 
+    private fun getDb(): SQLiteDatabase? {
+        if (sQLiteDb == null)
+            sQLiteDb = this.writableDatabase
+
+        return sQLiteDb
+    }
+
     @SuppressLint("Range")
     fun getAllCities(): Vector<City> {
         val cursor =
-            this.readableDatabase?.query(CityEntity.TABLE_NAME, null, null, null, null, null, null)
+            getDb()?.query(CityEntity.TABLE_NAME, null, null, null, null, null, null)
 
         val citiesCollection = Vector<City>()
 
@@ -68,7 +78,7 @@ class DbHelper(context: Context) :
         val selectionArgs = arrayOf(_cityId.toString())
 
         val cursor =
-            this.readableDatabase?.query(
+            getDb()?.query(
                 LandmarkEntity.TABLE_NAME,
                 null,
                 selection,
@@ -83,8 +93,6 @@ class DbHelper(context: Context) :
         while (cursor?.moveToNext() == true) {
             try {
                 val id = cursor.getInt(cursor.getColumnIndex("_id"))
-                val cityId =
-                    cursor.getInt(cursor.getColumnIndex(LandmarkEntity.COLUMN_NAME_CITY_ID))
                 val name = cursor.getString(cursor.getColumnIndex(LandmarkEntity.COLUMN_NAME_NAME))
                 val description =
                     cursor.getString(cursor.getColumnIndex(LandmarkEntity.COLUMN_NAME_DESCRIPTION))
@@ -102,14 +110,25 @@ class DbHelper(context: Context) :
     }
 
     fun insert(tableName: String, values: ContentValues): Long? {
-        return this.writableDatabase?.insert(tableName, null, values)
+        return getDb()?.insert(tableName, null, values)
     }
 
-    fun deleteById(tableName: String, id: Int): Int? {
+    fun deleteCityById(id: Int): Int? {
+        return if (getLandmarksByCityId(id).isNotEmpty()) {
+            DELETION_ERROR_CITY_WITH_LANDMARKS
+        } else {
+            val selection = "${BaseColumns._ID} LIKE ?"
+            val selectionArgs = arrayOf(id.toString())
+            getDb()?.delete(CityEntity.TABLE_NAME, selection, selectionArgs)
+        }
+    }
+
+    fun deleteLandmarkById(id: Int): Int? {
         val selection = "${BaseColumns._ID} LIKE ?"
         val selectionArgs = arrayOf(id.toString())
-        return this.writableDatabase?.delete(tableName, selection, selectionArgs)
+        return getDb()?.delete(LandmarkEntity.TABLE_NAME, selection, selectionArgs)
     }
+
 
     companion object {
         // If you change the database schema, you must increment the database version.

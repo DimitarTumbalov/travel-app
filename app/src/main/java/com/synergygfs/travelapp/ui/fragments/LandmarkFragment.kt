@@ -2,7 +2,9 @@ package com.synergygfs.travelapp.ui.fragments
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.transition.TransitionInflater
@@ -19,8 +21,6 @@ class LandmarkFragment : Fragment() {
         val inflater = TransitionInflater.from(requireContext())
         enterTransition = inflater.inflateTransition(R.transition.slide_right)
         exitTransition = inflater.inflateTransition(R.transition.slide_right)
-
-        setHasOptionsMenu(true)
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -40,11 +40,6 @@ class LandmarkFragment : Fragment() {
         binding.description.text = landmarkDescription
 
         return binding.root
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        menu.clear()
-        super.onCreateOptionsMenu(menu, inflater)
     }
 
     companion object {

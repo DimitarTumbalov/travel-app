@@ -12,8 +12,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
+import com.synergygfs.travelapp.Constants.Companion.DELETION_ERROR_CITY_WITH_LANDMARKS
 import com.synergygfs.travelapp.R
-import com.synergygfs.travelapp.data.TravelAppContractContract
 import com.synergygfs.travelapp.data.models.City
 import com.synergygfs.travelapp.databinding.ItemCityBinding
 import com.synergygfs.travelapp.ui.MainActivity
@@ -98,22 +98,47 @@ class CitiesAdapter(
                     setOnClickListener {
                         dialog.dismiss()
 
-                        val deletedRow = activity.dbHelper?.deleteById(
-                            TravelAppContractContract.CityEntity.TABLE_NAME,
-                            city.id
-                        )
+                        val deletedRows = activity.dbHelper?.deleteCityById(city.id)
 
-                        if (deletedRow != null && deletedRow > -1) {
-                            activity.citiesFragment.apply {
-                                val cityToDeleteIndex =
-                                    citiesCollection.indexOf(citiesCollection.find { it.id == city.id })
-                                citiesCollection.removeAt(cityToDeleteIndex)
-                                adapter?.notifyItemRemoved(cityToDeleteIndex)
+                        when (deletedRows) {
+                            null -> {
+                                Toast.makeText(
+                                    activity,
+                                    activity.getString(R.string.deletion_failed),
+                                    Toast.LENGTH_SHORT
+                                )
+                                    .show()
                             }
+                            -1 -> {
+                                Toast.makeText(
+                                    activity,
+                                    activity.getString(R.string.deletion_failed),
+                                    Toast.LENGTH_SHORT
+                                )
+                                    .show()
+                            }
+                            DELETION_ERROR_CITY_WITH_LANDMARKS -> {
+                                Toast.makeText(
+                                    activity,
+                                    activity.getString(R.string.cant_delete_city_with_landmarks),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                            else -> {
+                                activity.citiesFragment.apply {
+                                    val cityToDeleteIndex =
+                                        citiesCollection.indexOf(citiesCollection.find { it.id == city.id })
+                                    citiesCollection.removeAt(cityToDeleteIndex)
+                                    adapter?.notifyItemRemoved(cityToDeleteIndex)
+                                }
 
-                            Toast.makeText(activity, "Row delete", Toast.LENGTH_SHORT).show()
-                        } else
-                            Toast.makeText(activity, "Deletion failed", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(
+                                    activity,
+                                    activity.getString(R.string.city_deleted),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
                     }
 
                     // set cancelable and dismiss listener

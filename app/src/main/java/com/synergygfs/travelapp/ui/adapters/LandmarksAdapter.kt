@@ -13,7 +13,6 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import com.synergygfs.travelapp.R
-import com.synergygfs.travelapp.data.TravelAppContractContract
 import com.synergygfs.travelapp.data.models.Landmark
 import com.synergygfs.travelapp.databinding.ItemLandmarkBinding
 import com.synergygfs.travelapp.ui.MainActivity
@@ -97,10 +96,7 @@ class LandmarksAdapter(
                     setOnClickListener {
                         dialog.dismiss()
 
-                        val deletedRow = activity.dbHelper?.deleteById(
-                            TravelAppContractContract.LandmarkEntity.TABLE_NAME,
-                            landmark.id
-                        )
+                        val deletedRow = activity.dbHelper?.deleteLandmarkById(landmark.id)
 
                         if (deletedRow != null && deletedRow > -1) {
                             (UiUtils.getFragmentByTag(
@@ -113,9 +109,17 @@ class LandmarksAdapter(
                                 adapter?.notifyItemRemoved(landmarkToDeleteIndex)
                             }
 
-                            Toast.makeText(activity, "Row delete", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                activity,
+                                activity.getString(R.string.landmark_deleted),
+                                Toast.LENGTH_SHORT
+                            ).show()
                         } else
-                            Toast.makeText(activity, "Deletion failed", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                activity,
+                                activity.getString(R.string.deletion_failed),
+                                Toast.LENGTH_SHORT
+                            ).show()
                     }
 
                     // set cancelable and dismiss listener

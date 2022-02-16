@@ -92,7 +92,7 @@ class MainActivity : AppCompatActivity() {
                     supportActionBar?.setDisplayHomeAsUpEnabled(true)
                 }
                 else -> {
-                    binding.topAppBar.title = "Travel App"
+                    binding.topAppBar.title = "Cities"
                     supportActionBar?.setDisplayHomeAsUpEnabled(false)
                 }
             }

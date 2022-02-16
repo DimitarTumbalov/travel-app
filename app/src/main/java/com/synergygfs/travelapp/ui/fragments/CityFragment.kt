@@ -2,7 +2,9 @@ package com.synergygfs.travelapp.ui.fragments
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -30,8 +32,6 @@ class CityFragment : Fragment() {
         val inflater = TransitionInflater.from(requireContext())
         enterTransition = inflater.inflateTransition(R.transition.slide_right)
         exitTransition = inflater.inflateTransition(R.transition.slide_right)
-
-        setHasOptionsMenu(true)
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -93,11 +93,6 @@ class CityFragment : Fragment() {
         }
 
         return binding.root
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        menu.clear()
-        super.onCreateOptionsMenu(menu, inflater)
     }
 
     companion object {

@@ -2,7 +2,9 @@ package com.synergygfs.travelapp.ui.fragments
 
 import android.content.ContentValues
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
@@ -29,8 +31,6 @@ class AddLandmarkFragment : Fragment() {
         val inflater = TransitionInflater.from(requireContext())
         enterTransition = inflater.inflateTransition(R.transition.slide_bot)
         exitTransition = inflater.inflateTransition(R.transition.slide_top)
-
-        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(
@@ -90,20 +90,23 @@ class AddLandmarkFragment : Fragment() {
                         adapter?.notifyItemInserted(adapter?.itemCount ?: 0)
                     }
 
-                    Toast.makeText(activity, "Inserted in row $newRowId", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        activity,
+                        activity.getString(R.string.landmark_added),
+                        Toast.LENGTH_SHORT
+                    ).show()
                     activity.onBackPressed()
                 } else
-                    Toast.makeText(activity, "Failed saving $newRowId", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        activity,
+                        activity.getString(R.string.saving_failed),
+                        Toast.LENGTH_SHORT
+                    ).show()
             }
 
         }
 
         return binding.root
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        menu.clear()
-        super.onCreateOptionsMenu(menu, inflater)
     }
 
     companion object {
