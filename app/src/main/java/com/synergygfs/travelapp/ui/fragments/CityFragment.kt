@@ -5,10 +5,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionInflater
 import com.synergygfs.travelapp.R
 import com.synergygfs.travelapp.data.models.Landmark
@@ -67,6 +69,25 @@ class CityFragment : Fragment() {
             lm.orientation
         )
         landmarksRv.addItemDecoration(dividerItemDecoration)
+
+        // Update the RecyclerView UI
+        binding.noLandmarks.isVisible = adapter?.itemCount ?: 0 <= 0
+
+        // Register an observer to the adapter so it can update the RecyclerView UI
+        adapter?.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+            override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
+                super.onItemRangeRemoved(positionStart, itemCount)
+
+                binding.noLandmarks.isVisible = adapter?.itemCount ?: 0 <= 0
+            }
+
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                super.onItemRangeInserted(positionStart, itemCount)
+
+                binding.noLandmarks.isVisible = adapter?.itemCount ?: 0 <= 0
+            }
+
+        })
 
         // Expand/collapse description TextView on click
         description.setOnClickListener {

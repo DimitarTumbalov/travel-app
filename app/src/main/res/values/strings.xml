@@ -3,7 +3,7 @@
     <string name="cd_icon_city">Icon of city</string>
     <string name="city_name">City Name</string>
     <string name="description">Description</string>
-    <string name="add_city">Add City</string>
+    <string name="city">City</string>
     <string name="landmarks">Landmarks</string>
     <string name="cancel">Cancel</string>
     <string name="confirm">Confirm</string>
@@ -20,4 +20,7 @@
     <string name="city_added">City added</string>
     <string name="saving_failed">Saving failed</string>
     <string name="landmark_added">Landmark added</string>
+    <string name="no_cities">No Cities</string>
+    <string name="no_landmarks">No landmarks</string>
+    <string name="add_city">Add City</string>
 </resources>

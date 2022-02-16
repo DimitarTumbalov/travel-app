@@ -114,7 +114,7 @@ class AddLandmarkFragment : Fragment() {
     }
 
     companion object {
-        const val TAG = "AddCityFragment"
+        const val TAG = "AddLandmarkFragment"
     }
 
 }

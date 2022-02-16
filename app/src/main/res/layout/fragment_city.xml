@@ -22,11 +22,9 @@
             android:background="@color/background"
             android:fillViewport="true">
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingBottom="80dp">
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/name"
@@ -36,7 +34,8 @@
                     android:layout_marginHorizontal="15dp"
                     android:layout_marginTop="10dp"
                     android:ellipsize="end"
-                    android:lines="1" />
+                    android:lines="1"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/description"
@@ -46,12 +45,16 @@
                     android:layout_marginHorizontal="15dp"
                     android:layout_marginTop="10dp"
                     android:ellipsize="end"
-                    android:maxLines="8" />
+                    android:maxLines="8"
+                    app:layout_constraintTop_toBottomOf="@id/name" />
 
                 <View
+                    android:id="@+id/divider"
                     style="@style/Divider"
-                    android:layout_marginHorizontal="5dp"
-                    android:layout_marginTop="10dp" />
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/description" />
 
                 <TextView
                     android:id="@+id/landmarks_title"
@@ -60,16 +63,33 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="15dp"
                     android:layout_marginTop="10dp"
-                    android:text="@string/landmarks" />
+                    android:text="@string/landmarks"
+                    app:layout_constraintTop_toBottomOf="@id/divider" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/landmarks_rv"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="10dp"
                     android:clipToPadding="false"
-                    android:nestedScrollingEnabled="false" />
+                    android:nestedScrollingEnabled="false"
+                    android:paddingBottom="80dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/landmarks_title" />
 
-            </LinearLayout>
+                <TextView
+                    android:id="@+id/noLandmarks"
+                    style="@style/p_bold"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="@color/background"
+                    android:gravity="center"
+                    android:text="@string/no_landmarks"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@id/landmarks_rv"
+                    app:layout_constraintTop_toTopOf="@id/landmarks_rv" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.core.widget.NestedScrollView>
 
