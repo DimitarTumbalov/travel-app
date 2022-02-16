@@ -72,20 +72,20 @@ class CityFragment : Fragment() {
         landmarksRv.addItemDecoration(dividerItemDecoration)
 
         // Update the RecyclerView UI
-        binding.noLandmarks.isVisible = adapter?.itemCount ?: 0 <= 0
+        binding.noLandmarks.isVisible = adapter?.itemCount ?: 0 < 1
 
         // Register an observer to the adapter so it can update the RecyclerView UI
         adapter?.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
             override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
                 super.onItemRangeRemoved(positionStart, itemCount)
 
-                binding.noLandmarks.isVisible = adapter?.itemCount ?: 0 <= 0
+                binding.noLandmarks.isVisible = adapter?.itemCount ?: 0 < 1
             }
 
             override fun onChanged() {
                 super.onChanged()
 
-                binding.noLandmarks.isVisible = adapter?.itemCount ?: 0 <= 0
+                binding.noLandmarks.isVisible = adapter?.itemCount ?: 0 < 1
             }
         })
 
