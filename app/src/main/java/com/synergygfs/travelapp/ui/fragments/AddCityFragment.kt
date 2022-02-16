@@ -46,13 +46,13 @@ class AddCityFragment : Fragment() {
         val addBtn = binding.addBtn
 
         cityName.doOnTextChanged { text, _, _, _ ->
-            isNameValid = text?.matches(Constants.VALIDATION_REGEX_CITY_NAME) == true
+            isNameValid = text?.matches(Constants.VALIDATION_REGEX_NAME) == true
 
             addBtn.isEnabled = isNameValid && isDescriptionValid
         }
 
         cityDescription.doOnTextChanged { text, _, _, _ ->
-            isDescriptionValid = text?.matches(Constants.VALIDATION_REGEX_CITY_DESCRIPTION) == true
+            isDescriptionValid = text?.matches(Constants.VALIDATION_REGEX_DESCRIPTION) == true
 
             addBtn.isEnabled = isNameValid && isDescriptionValid
         }
