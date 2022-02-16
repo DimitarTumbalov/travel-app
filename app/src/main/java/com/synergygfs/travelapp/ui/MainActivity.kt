@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 CityFragment.TAG -> {
                     binding.topAppBar.apply {
-                        title = "City with Landmarks"
+                        title = "City with landmarks"
                         navigationIcon = AppCompatResources.getDrawable(
                             this@MainActivity,
                             R.drawable.ic_arrow_back

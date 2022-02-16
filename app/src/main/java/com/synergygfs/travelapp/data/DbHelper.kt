@@ -49,7 +49,15 @@ class DbHelper(context: Context) :
     @SuppressLint("Range")
     fun getAllCities(): Vector<City> {
         val cursor =
-            getDb()?.query(CityEntity.TABLE_NAME, null, null, null, null, null, null)
+            getDb()?.query(
+                CityEntity.TABLE_NAME,
+                null,
+                null,
+                null,
+                null,
+                null,
+                "${CityEntity.COLUMN_NAME_NAME} ASC"
+            )
 
         val citiesCollection = Vector<City>()
 
@@ -85,7 +93,7 @@ class DbHelper(context: Context) :
                 selectionArgs,
                 null,
                 null,
-                null
+                "${LandmarkEntity.COLUMN_NAME_NAME} ASC"
             )
 
         val landmarksCollection = Vector<Landmark>()

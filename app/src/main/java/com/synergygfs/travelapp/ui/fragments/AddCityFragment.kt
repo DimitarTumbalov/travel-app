@@ -1,5 +1,6 @@
 package com.synergygfs.travelapp.ui.fragments
 
+import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -32,6 +33,7 @@ class AddCityFragment : Fragment() {
         exitTransition = inflater.inflateTransition(R.transition.slide_top)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -47,7 +49,7 @@ class AddCityFragment : Fragment() {
 
         cityName.doOnTextChanged { text, _, _, _ ->
             // Check if name is valid
-            isNameValid = text?.matches(Constants.VALIDATION_REGEX_NAME) == true
+            isNameValid = text?.trim()?.matches(Constants.VALIDATION_REGEX_NAME) == true
 
             // Check if addBtn should be enabled
             addBtn.isEnabled = isNameValid && isDescriptionValid
@@ -55,7 +57,8 @@ class AddCityFragment : Fragment() {
 
         cityDescription.doOnTextChanged { text, _, _, _ ->
             // Check if description is valid
-            isDescriptionValid = text?.matches(Constants.VALIDATION_REGEX_DESCRIPTION) == true
+            isDescriptionValid =
+                text?.trim()?.matches(Constants.VALIDATION_REGEX_DESCRIPTION) == true
 
             // Check if addBtn should be enabled
             addBtn.isEnabled = isNameValid && isDescriptionValid
@@ -81,7 +84,8 @@ class AddCityFragment : Fragment() {
                 if (newRowId != null && newRowId > -1) { // If city creation is successful, pop the fragment and show a toast
                     activity.citiesFragment.apply {
                         citiesCollection.add(City(newRowId.toInt(), name, description))
-                        adapter?.notifyItemInserted(adapter?.itemCount ?: 0)
+                        citiesCollection.sortBy { it.name }
+                        adapter?.notifyDataSetChanged()
                     }
 
                     Toast.makeText(

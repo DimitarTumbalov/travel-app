@@ -1,5 +1,6 @@
 package com.synergygfs.travelapp.ui.fragments
 
+import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -33,6 +34,7 @@ class AddLandmarkFragment : Fragment() {
         exitTransition = inflater.inflateTransition(R.transition.slide_top)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -50,7 +52,7 @@ class AddLandmarkFragment : Fragment() {
 
         landmarkName.doOnTextChanged { text, _, _, _ ->
             // Check if name is valid
-            isNameValid = text?.matches(Constants.VALIDATION_REGEX_NAME) == true
+            isNameValid = text?.trim()?.matches(Constants.VALIDATION_REGEX_NAME) == true
 
             // Check if addBtn should be enabled
             addBtn.isEnabled = isNameValid && isDescriptionValid
@@ -58,7 +60,8 @@ class AddLandmarkFragment : Fragment() {
 
         landmarkDescription.doOnTextChanged { text, _, _, _ ->
             // Check if description is valid
-            isDescriptionValid = text?.matches(Constants.VALIDATION_REGEX_DESCRIPTION) == true
+            isDescriptionValid =
+                text?.trim()?.matches(Constants.VALIDATION_REGEX_DESCRIPTION) == true
 
             // Check if addBtn should be enabled
             addBtn.isEnabled = isNameValid && isDescriptionValid
@@ -91,7 +94,8 @@ class AddLandmarkFragment : Fragment() {
                                 description
                             )
                         )
-                        adapter?.notifyItemInserted(adapter?.itemCount ?: 0)
+                        landmarksCollection.sortBy { it.name }
+                        adapter?.notifyDataSetChanged()
                     }
 
                     Toast.makeText(

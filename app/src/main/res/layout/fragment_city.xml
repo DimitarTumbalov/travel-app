@@ -58,7 +58,7 @@
 
                 <TextView
                     android:id="@+id/landmarks_title"
-                    style="@style/h6"
+                    style="@style/h5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="15dp"
