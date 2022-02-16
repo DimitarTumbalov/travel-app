@@ -1,6 +1,5 @@
 package com.synergygfs.travelapp.ui.fragments
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -23,7 +22,6 @@ class LandmarkFragment : Fragment() {
         exitTransition = inflater.inflateTransition(R.transition.slide_right)
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -33,6 +31,7 @@ class LandmarkFragment : Fragment() {
             inflater, R.layout.fragment_landmark, container, false
         )
 
+        // Retrieve the passed data
         val landmarkName = arguments?.getString("landmarkName") ?: "Unknown"
         val landmarkDescription = arguments?.getString("landmarkDescription") ?: "Unknown"
 

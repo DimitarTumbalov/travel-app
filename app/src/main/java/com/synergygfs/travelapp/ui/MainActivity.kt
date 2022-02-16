@@ -28,10 +28,12 @@ class MainActivity : AppCompatActivity() {
 
         dbHelper = DbHelper(this)
 
-        // Adding main fragment
+        // Add main fragment to FragmentContainer - CitiesFragment
         UiUtils.addFragment(this, R.id.fragment_container, citiesFragment, CitiesFragment.TAG)
 
+        // Update the TopAppBar when FragmentBackStack is changed
         supportFragmentManager.addOnBackStackChangedListener {
+            // Hide the keyboard when a fragment is opened/closed
             UiUtils.hideSoftKeyBoard(this)
 
             when (UiUtils.getTopFragmentTag(this)) {
@@ -100,6 +102,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
+        // Close the database
         dbHelper?.close()
         super.onDestroy()
     }

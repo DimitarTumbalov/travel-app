@@ -71,9 +71,9 @@ class LandmarksAdapter(
             }
         }
 
-        // Delete landmark
         itemView.setOnLongClickListener {
             activity?.let {
+                // Show confirm deletion dialog
                 val dialog = Dialog(activity)
                 dialog.setContentView(R.layout.dialog_confirm_action)
 
@@ -84,21 +84,19 @@ class LandmarksAdapter(
                 // set body text
                 body.text = activity.getString(R.string.confirm_landmark_delete)
 
-                // set cancel btn click listener
                 cancelBtn.setOnClickListener {
                     dialog.dismiss()
                 }
+
                 confirmBtn.apply {
                     text = activity.getString(R.string.delete)
-
-                    // set confirm btn click listener
 
                     setOnClickListener {
                         dialog.dismiss()
 
                         val deletedRow = activity.dbHelper?.deleteLandmarkById(landmark.id)
 
-                        if (deletedRow != null && deletedRow > -1) {
+                        if (deletedRow != null && deletedRow > -1) { // Show a toast that landmark deletion is successful and update the landmarksCollection
                             (UiUtils.getFragmentByTag(
                                 activity,
                                 CityFragment.TAG
@@ -114,7 +112,7 @@ class LandmarksAdapter(
                                 activity.getString(R.string.landmark_deleted),
                                 Toast.LENGTH_SHORT
                             ).show()
-                        } else
+                        } else // Show a toast that landmark deletion failed
                             Toast.makeText(
                                 activity,
                                 activity.getString(R.string.deletion_failed),
@@ -122,7 +120,6 @@ class LandmarksAdapter(
                             ).show()
                     }
 
-                    // set cancelable and dismiss listener
                     dialog.setCancelable(true)
 
                     activity.showDialog(dialog)

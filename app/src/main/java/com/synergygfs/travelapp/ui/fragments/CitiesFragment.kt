@@ -40,12 +40,14 @@ class CitiesFragment : Fragment() {
 
         citiesCollection = activity?.dbHelper?.getAllCities() ?: Vector()
 
+        // Set up the CitiesAdapter
         val citiesRv = binding.citiesRv
         val lm = LinearLayoutManager(requireContext())
         citiesRv.layoutManager = lm
         adapter = CitiesAdapter(this, citiesCollection)
         citiesRv.adapter = adapter
 
+        // Add dividers between RecyclerView items
         val dividerItemDecoration = DividerItemDecoration(
             citiesRv.context,
             lm.orientation

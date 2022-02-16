@@ -46,14 +46,18 @@ class AddCityFragment : Fragment() {
         val addBtn = binding.addBtn
 
         cityName.doOnTextChanged { text, _, _, _ ->
+            // Check if name is valid
             isNameValid = text?.matches(Constants.VALIDATION_REGEX_NAME) == true
 
+            // Check if addBtn should be enabled
             addBtn.isEnabled = isNameValid && isDescriptionValid
         }
 
         cityDescription.doOnTextChanged { text, _, _, _ ->
+            // Check if description is valid
             isDescriptionValid = text?.matches(Constants.VALIDATION_REGEX_DESCRIPTION) == true
 
+            // Check if addBtn should be enabled
             addBtn.isEnabled = isNameValid && isDescriptionValid
         }
 
@@ -74,7 +78,7 @@ class AddCityFragment : Fragment() {
                     values
                 )
 
-                if (newRowId != null && newRowId > -1) {
+                if (newRowId != null && newRowId > -1) { // If city creation is successful, pop the fragment and show a toast
                     activity.citiesFragment.apply {
                         citiesCollection.add(City(newRowId.toInt(), name, description))
                         adapter?.notifyItemInserted(adapter?.itemCount ?: 0)
@@ -86,7 +90,7 @@ class AddCityFragment : Fragment() {
                         Toast.LENGTH_SHORT
                     ).show()
                     activity.onBackPressed()
-                } else
+                } else // Show a toast that city creation failed
                     Toast.makeText(
                         activity,
                         activity.getString(R.string.saving_failed),

@@ -51,8 +51,8 @@ class CitiesAdapter(
             description.text = city.description
         }
 
-        // Open city fragment
         itemView.setOnClickListener {
+            // Open city fragment and pass the city data
             activity?.let { activity ->
                 if (UiUtils.getFragmentByTag(activity, CityFragment.TAG) == null) {
                     val cityFragment = CityFragment()
@@ -73,8 +73,8 @@ class CitiesAdapter(
             }
         }
 
-        // Delete city
         itemView.setOnLongClickListener {
+            // Show confirm deletion dialog
             activity?.let {
                 val dialog = Dialog(activity)
                 dialog.setContentView(R.layout.dialog_confirm_action)
@@ -86,7 +86,6 @@ class CitiesAdapter(
                 // set body text
                 body.text = activity.getString(R.string.confirm_city_delete)
 
-                // set cancel btn click listener
                 cancelBtn.setOnClickListener {
                     dialog.dismiss()
                 }
@@ -98,10 +97,8 @@ class CitiesAdapter(
                     setOnClickListener {
                         dialog.dismiss()
 
-                        val deletedRows = activity.dbHelper?.deleteCityById(city.id)
-
-                        when (deletedRows) {
-                            null -> {
+                        when (activity.dbHelper?.deleteCityById(city.id)) {
+                            null -> { // Show a toast that city deletion failed
                                 Toast.makeText(
                                     activity,
                                     activity.getString(R.string.deletion_failed),
@@ -109,7 +106,7 @@ class CitiesAdapter(
                                 )
                                     .show()
                             }
-                            -1 -> {
+                            -1 -> { // Show a toast that city deletion failed
                                 Toast.makeText(
                                     activity,
                                     activity.getString(R.string.deletion_failed),
@@ -117,14 +114,14 @@ class CitiesAdapter(
                                 )
                                     .show()
                             }
-                            DELETION_ERROR_CITY_WITH_LANDMARKS -> {
+                            DELETION_ERROR_CITY_WITH_LANDMARKS -> { // Show a toast that city deletion failed because it has landmarks
                                 Toast.makeText(
                                     activity,
                                     activity.getString(R.string.cant_delete_city_with_landmarks),
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
-                            else -> {
+                            else -> { // Show a toast that city deletion is successful and update the citiesCollection
                                 activity.citiesFragment.apply {
                                     val cityToDeleteIndex =
                                         citiesCollection.indexOf(citiesCollection.find { it.id == city.id })
@@ -141,7 +138,6 @@ class CitiesAdapter(
                         }
                     }
 
-                    // set cancelable and dismiss listener
                     dialog.setCancelable(true)
 
                     activity.showDialog(dialog)

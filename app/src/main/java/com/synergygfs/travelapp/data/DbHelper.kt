@@ -114,7 +114,7 @@ class DbHelper(context: Context) :
     }
 
     fun deleteCityById(id: Int): Int? {
-        return if (getLandmarksByCityId(id).isNotEmpty()) {
+        return if (getLandmarksByCityId(id).isNotEmpty()) { // If City has Landmarks, don't delete it
             DELETION_ERROR_CITY_WITH_LANDMARKS
         } else {
             val selection = "${BaseColumns._ID} LIKE ?"
@@ -132,8 +132,8 @@ class DbHelper(context: Context) :
 
     companion object {
         // If you change the database schema, you must increment the database version.
-        const val DATABASE_VERSION = 2
-        const val DATABASE_NAME = "TravelApp.db"
+        private const val DATABASE_VERSION = 2
+        private const val DATABASE_NAME = "TravelApp.db"
 
         private const val SQL_CREATE_CITY_ENTRIES =
             "CREATE TABLE IF NOT EXISTS ${CityEntity.TABLE_NAME} (" +

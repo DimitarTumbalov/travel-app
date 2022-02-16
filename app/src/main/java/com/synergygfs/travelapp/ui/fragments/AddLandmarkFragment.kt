@@ -49,14 +49,18 @@ class AddLandmarkFragment : Fragment() {
         val addBtn = binding.addBtn
 
         landmarkName.doOnTextChanged { text, _, _, _ ->
+            // Check if name is valid
             isNameValid = text?.matches(Constants.VALIDATION_REGEX_NAME) == true
 
+            // Check if addBtn should be enabled
             addBtn.isEnabled = isNameValid && isDescriptionValid
         }
 
         landmarkDescription.doOnTextChanged { text, _, _, _ ->
+            // Check if description is valid
             isDescriptionValid = text?.matches(Constants.VALIDATION_REGEX_DESCRIPTION) == true
 
+            // Check if addBtn should be enabled
             addBtn.isEnabled = isNameValid && isDescriptionValid
         }
 
@@ -78,7 +82,7 @@ class AddLandmarkFragment : Fragment() {
                     values
                 )
 
-                if (newRowId != null && newRowId > -1) {
+                if (newRowId != null && newRowId > -1) { // If landmark creation is successful, pop the fragment, update the landmarksCollection and show a toast
                     (UiUtils.getFragmentByTag(activity, CityFragment.TAG) as CityFragment?)?.apply {
                         landmarksCollection.add(
                             Landmark(
@@ -96,7 +100,7 @@ class AddLandmarkFragment : Fragment() {
                         Toast.LENGTH_SHORT
                     ).show()
                     activity.onBackPressed()
-                } else
+                } else // Show a toast that landmark creation failed
                     Toast.makeText(
                         activity,
                         activity.getString(R.string.saving_failed),

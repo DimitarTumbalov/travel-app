@@ -45,27 +45,30 @@ class CityFragment : Fragment() {
         )
 
         val activity = activity as MainActivity?
+        val description = binding.description
 
+        // Retrieve the passed data
         val cityId = arguments?.getInt("cityId") ?: -1
+        binding.name.text = arguments?.getString("cityName") ?: ""
+        description.text = arguments?.getString("cityDescription") ?: ""
 
         landmarksCollection = activity?.dbHelper?.getLandmarksByCityId(cityId) ?: Vector()
 
+        // Set up the LandmarksAdapter
         val landmarksRv = binding.landmarksRv
         val lm = LinearLayoutManager(requireContext())
         landmarksRv.layoutManager = lm
         adapter = LandmarksAdapter(this, landmarksCollection)
         landmarksRv.adapter = adapter
 
+        // Add dividers between RecyclerView items
         val dividerItemDecoration = DividerItemDecoration(
             landmarksRv.context,
             lm.orientation
         )
         landmarksRv.addItemDecoration(dividerItemDecoration)
-        val description = binding.description
 
-        binding.name.text = arguments?.getString("cityName") ?: "Unknown city"
-        description.text = arguments?.getString("cityDescription") ?: "No Description"
-
+        // Expand/collapse description TextView on click
         description.setOnClickListener {
             if (description.maxLines == 8)
                 description.maxLines = Integer.MAX_VALUE
