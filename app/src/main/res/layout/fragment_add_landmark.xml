@@ -1,6 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <data>
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background"
+        android:clickable="true"
+        android:fillViewport="true"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        tools:ignore="KeyboardInaccessibleWidget">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/body"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="20dp"
+                app:layout_constraintBottom_toTopOf="@id/guideline"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/icon"
+                    android:layout_width="96dp"
+                    android:layout_height="96dp"
+                    android:contentDescription="@string/cd_icon_city"
+                    android:src="@drawable/ic_landmark"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    app:tint="@color/text_high" />
+
+                <EditText
+                    android:id="@+id/name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:gravity="start"
+                    android:hint="@string/landmark_name"
+                    android:imeOptions="actionNext|flagNoExtractUi"
+                    android:importantForAutofill="no"
+                    android:inputType="text|textNoSuggestions"
+                    android:lines="1"
+                    android:nextFocusDown="@id/description"
+                    android:padding="10dp"
+                    app:layout_constraintTop_toBottomOf="@id/icon" />
+
+                <EditText
+                    android:id="@+id/description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="start"
+                    android:hint="@string/description"
+                    android:imeOptions="actionDone|flagNoExtractUi"
+                    android:importantForAutofill="no"
+                    android:inputType="textMultiLine|textNoSuggestions"
+                    android:lines="5"
+                    android:maxLines="10"
+                    android:nextFocusDown="@id/add_btn"
+                    android:padding="10dp"
+                    app:layout_constraintTop_toBottomOf="@id/name" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/add_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:enabled="false"
+                    android:letterSpacing="0.1"
+                    android:paddingVertical="12dp"
+                    android:text="@string/add_landmark"
+                    app:layout_constrainedWidth="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/description"
+                    app:layout_constraintWidth_max="500dp" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.8" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</layout>

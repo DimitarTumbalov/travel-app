@@ -9,6 +9,7 @@ import android.provider.BaseColumns
 import com.synergygfs.travelapp.data.TravelAppContractContract.CityEntity
 import com.synergygfs.travelapp.data.TravelAppContractContract.LandmarkEntity
 import com.synergygfs.travelapp.data.models.City
+import com.synergygfs.travelapp.data.models.Landmark
 import java.util.*
 
 class DbHelper(context: Context) :
@@ -61,6 +62,45 @@ class DbHelper(context: Context) :
         return citiesCollection
     }
 
+    @SuppressLint("Range")
+    fun getLandmarksByCityId(_cityId: Int): Vector<Landmark> {
+        val selection = "${LandmarkEntity.COLUMN_NAME_CITY_ID} LIKE ?"
+        val selectionArgs = arrayOf(_cityId.toString())
+
+        val cursor =
+            this.readableDatabase?.query(
+                LandmarkEntity.TABLE_NAME,
+                null,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+            )
+
+        val landmarksCollection = Vector<Landmark>()
+
+        while (cursor?.moveToNext() == true) {
+            try {
+                val id = cursor.getInt(cursor.getColumnIndex("_id"))
+                val cityId =
+                    cursor.getInt(cursor.getColumnIndex(LandmarkEntity.COLUMN_NAME_CITY_ID))
+                val name = cursor.getString(cursor.getColumnIndex(LandmarkEntity.COLUMN_NAME_NAME))
+                val description =
+                    cursor.getString(cursor.getColumnIndex(LandmarkEntity.COLUMN_NAME_DESCRIPTION))
+
+                val landmark = Landmark(id, name, description)
+                landmarksCollection.add(landmark)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
+        cursor?.close()
+
+        return landmarksCollection
+    }
+
     fun insert(tableName: String, values: ContentValues): Long? {
         return this.writableDatabase?.insert(tableName, null, values)
     }
@@ -73,7 +113,7 @@ class DbHelper(context: Context) :
 
     companion object {
         // If you change the database schema, you must increment the database version.
-        const val DATABASE_VERSION = 1
+        const val DATABASE_VERSION = 2
         const val DATABASE_NAME = "TravelApp.db"
 
         private const val SQL_CREATE_CITY_ENTRIES =
@@ -85,6 +125,7 @@ class DbHelper(context: Context) :
         private const val SQL_CREATE_LANDMARK_ENTRIES =
             "CREATE TABLE IF NOT EXISTS ${LandmarkEntity.TABLE_NAME} (" +
                     "${BaseColumns._ID} INTEGER PRIMARY KEY," +
+                    "${LandmarkEntity.COLUMN_NAME_CITY_ID} INTEGER," +
                     "${LandmarkEntity.COLUMN_NAME_NAME} TEXT," +
                     "${LandmarkEntity.COLUMN_NAME_DESCRIPTION} TEXT," +
                     "FOREIGN KEY (${LandmarkEntity.COLUMN_NAME_CITY_ID}) REFERENCES ${CityEntity.TABLE_NAME}(_id))"

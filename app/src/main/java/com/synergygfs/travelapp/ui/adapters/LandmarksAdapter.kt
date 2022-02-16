@@ -14,23 +14,23 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import com.synergygfs.travelapp.R
 import com.synergygfs.travelapp.data.TravelAppContractContract
-import com.synergygfs.travelapp.data.models.City
-import com.synergygfs.travelapp.databinding.ItemCityBinding
+import com.synergygfs.travelapp.data.models.Landmark
+import com.synergygfs.travelapp.databinding.ItemLandmarkBinding
 import com.synergygfs.travelapp.ui.MainActivity
 import com.synergygfs.travelapp.ui.UiUtils
-import com.synergygfs.travelapp.ui.fragments.CitiesFragment
 import com.synergygfs.travelapp.ui.fragments.CityFragment
+import com.synergygfs.travelapp.ui.fragments.LandmarkFragment
 import java.util.*
 
-class CitiesAdapter(
-    private val citiesFragment: CitiesFragment,
-    private var citiesCollection: Vector<City>
+class LandmarksAdapter(
+    private val cityFragment: CityFragment,
+    private var landmarksCollection: Vector<Landmark>
 ) :
-    RecyclerView.Adapter<CitiesAdapter.MyViewHolder>() {
+    RecyclerView.Adapter<LandmarksAdapter.MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val binding: ItemCityBinding =
-            ItemCityBinding.inflate(
+        val binding: ItemLandmarkBinding =
+            ItemLandmarkBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
@@ -41,39 +41,38 @@ class CitiesAdapter(
 
     @SuppressLint("Range")
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val activity = citiesFragment.activity as MainActivity?
+        val activity = cityFragment.activity as MainActivity?
         val itemView = holder.itemView
 
-        val city = citiesCollection[position]
+        val landmark = landmarksCollection[position]
 
         holder.binding?.apply {
-            name.text = city.name
-            description.text = city.description
+            name.text = landmark.name
+            description.text = landmark.description
         }
 
-        // Open city fragment
+        // Open landmark fragment
         itemView.setOnClickListener {
             activity?.let { activity ->
-                if (UiUtils.getFragmentByTag(activity, CityFragment.TAG) == null) {
-                    val cityFragment = CityFragment()
+                if (UiUtils.getFragmentByTag(activity, LandmarkFragment.TAG) == null) {
+                    val landmarkFragment = LandmarkFragment()
                     val args = Bundle()
-                    args.putInt("cityId", city.id)
-                    args.putString("cityName", city.name)
-                    args.putString("cityDescription", city.description)
-                    cityFragment.arguments = args
+                    args.putString("landmarkName", landmark.name)
+                    args.putString("landmarkDescription", landmark.description)
+                    landmarkFragment.arguments = args
 
                     UiUtils.addFragment(
                         activity as FragmentActivity,
                         R.id.fragment_container,
-                        cityFragment,
-                        CityFragment.TAG,
+                        landmarkFragment,
+                        LandmarkFragment.TAG,
                         true
                     )
                 }
             }
         }
 
-        // Delete city
+        // Delete landmark
         itemView.setOnLongClickListener {
             activity?.let {
                 val dialog = Dialog(activity)
@@ -84,31 +83,34 @@ class CitiesAdapter(
                 val cancelBtn = dialog.findViewById<MaterialButton>(R.id.cancel_btn)
 
                 // set body text
-                body.text = activity.getString(R.string.confirm_city_delete)
+                body.text = activity.getString(R.string.confirm_landmark_delete)
 
                 // set cancel btn click listener
                 cancelBtn.setOnClickListener {
                     dialog.dismiss()
                 }
-
                 confirmBtn.apply {
                     text = activity.getString(R.string.delete)
 
                     // set confirm btn click listener
+
                     setOnClickListener {
                         dialog.dismiss()
 
                         val deletedRow = activity.dbHelper?.deleteById(
-                            TravelAppContractContract.CityEntity.TABLE_NAME,
-                            city.id
+                            TravelAppContractContract.LandmarkEntity.TABLE_NAME,
+                            landmark.id
                         )
 
                         if (deletedRow != null && deletedRow > -1) {
-                            activity.citiesFragment.apply {
-                                val cityToDeleteIndex =
-                                    citiesCollection.indexOf(citiesCollection.find { it.id == city.id })
-                                citiesCollection.removeAt(cityToDeleteIndex)
-                                adapter?.notifyItemRemoved(cityToDeleteIndex)
+                            (UiUtils.getFragmentByTag(
+                                activity,
+                                CityFragment.TAG
+                            ) as CityFragment?)?.apply {
+                                val landmarkToDeleteIndex =
+                                    landmarksCollection.indexOf(landmarksCollection.find { it.id == landmark.id })
+                                landmarksCollection.removeAt(landmarkToDeleteIndex)
+                                adapter?.notifyItemRemoved(landmarkToDeleteIndex)
                             }
 
                             Toast.makeText(activity, "Row delete", Toast.LENGTH_SHORT).show()
@@ -132,13 +134,14 @@ class CitiesAdapter(
 
             true
         }
+
     }
 
-    class MyViewHolder(binding: ItemCityBinding) :
+    class MyViewHolder(binding: ItemLandmarkBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        var binding: ItemCityBinding? = binding
+        var binding: ItemLandmarkBinding? = binding
     }
 
-    override fun getItemCount() = citiesCollection.size
+    override fun getItemCount() = landmarksCollection.size
 
 }

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.synergygfs.travelapp.R
 import com.synergygfs.travelapp.data.models.City
@@ -13,6 +14,7 @@ import com.synergygfs.travelapp.ui.MainActivity
 import com.synergygfs.travelapp.ui.UiUtils
 import com.synergygfs.travelapp.ui.adapters.CitiesAdapter
 import java.util.*
+
 
 class CitiesFragment : Fragment() {
 
@@ -43,19 +45,28 @@ class CitiesFragment : Fragment() {
         citiesCollection = activity?.dbHelper?.getAllCities() ?: Vector()
 
         val citiesRv = binding.citiesRv
-        citiesRv.layoutManager = LinearLayoutManager(requireContext())
+        val lm = LinearLayoutManager(requireContext())
+        citiesRv.layoutManager = lm
         adapter = CitiesAdapter(this, citiesCollection)
         citiesRv.adapter = adapter
 
+        val dividerItemDecoration = DividerItemDecoration(
+            citiesRv.context,
+            lm.orientation
+        )
+        citiesRv.addItemDecoration(dividerItemDecoration)
+
         binding.addCityBtn.setOnClickListener {
             activity?.let {
-                UiUtils.addFragment(
-                    activity,
-                    R.id.fragment_container,
-                    activity.addCitiesFragment,
-                    AddCityFragment.TAG,
-                    true
-                )
+                if (UiUtils.getFragmentByTag(activity, AddCityFragment.TAG) == null) {
+                    UiUtils.addFragment(
+                        activity,
+                        R.id.fragment_container,
+                        AddCityFragment(),
+                        AddCityFragment.TAG,
+                        true
+                    )
+                }
             }
         }
 

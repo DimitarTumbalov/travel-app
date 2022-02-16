@@ -5,4 +5,13 @@
     <string name="description">Description</string>
     <string name="add_city">Add City</string>
     <string name="search">Search</string>
+    <string name="landmarks">Landmarks</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Confirm</string>
+    <string name="landmark_name">Landmark name</string>
+    <string name="add_landmark">Add Landmark</string>
+    <string name="landmark">Landmark</string>
+    <string name="confirm_city_delete">Are you sure you want to delete this city?</string>
+    <string name="confirm_landmark_delete">Are you sure you want to delete this landmark?</string>
+    <string name="delete">Delete</string>
 </resources>

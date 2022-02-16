@@ -19,12 +19,18 @@ class UiUtils {
             allowStateLoss: Boolean = false
         ) {
             activity.runOnUiThread {
-                val transaction = activity.supportFragmentManager.beginTransaction()
+                val supportFragmentManager = activity.supportFragmentManager
+                val transaction = supportFragmentManager.beginTransaction()
                 transaction.add(container, fragment, tag)
+
                 if (addToBackStack) transaction.addToBackStack(tag)
                 if (allowStateLoss) transaction.commitAllowingStateLoss()
                 else transaction.commit()
             }
+        }
+
+        fun getFragmentByTag(activity: FragmentActivity, tag: String?): Fragment? {
+            return activity.supportFragmentManager.findFragmentByTag(tag)
         }
 
         fun getTopFragmentTag(activity: FragmentActivity): String? {

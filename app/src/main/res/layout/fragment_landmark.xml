@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background"
+        android:clickable="true"
+        android:fillViewport="true"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        tools:ignore="KeyboardInaccessibleWidget">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/name"
+                style="@style/h5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginTop="10dp"
+                android:ellipsize="end"
+                android:lines="1" />
+
+            <TextView
+                android:id="@+id/description"
+                style="@style/p"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginVertical="10dp" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</layout>

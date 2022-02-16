@@ -1,5 +1,6 @@
 package com.synergygfs.travelapp.ui
 
+import android.app.Dialog
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
@@ -7,8 +8,7 @@ import androidx.databinding.DataBindingUtil
 import com.synergygfs.travelapp.R
 import com.synergygfs.travelapp.data.DbHelper
 import com.synergygfs.travelapp.databinding.ActivityMainBinding
-import com.synergygfs.travelapp.ui.fragments.AddCityFragment
-import com.synergygfs.travelapp.ui.fragments.CitiesFragment
+import com.synergygfs.travelapp.ui.fragments.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -16,7 +16,8 @@ class MainActivity : AppCompatActivity() {
     var dbHelper: DbHelper? = null
 
     var citiesFragment = CitiesFragment()
-    var addCitiesFragment = AddCityFragment()
+
+    private var lastDialog: Dialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(null)
@@ -48,6 +49,48 @@ class MainActivity : AppCompatActivity() {
 
                     supportActionBar?.setDisplayHomeAsUpEnabled(true)
                 }
+                AddLandmarkFragment.TAG -> {
+                    binding.topAppBar.apply {
+                        title = "Add Landmark"
+                        navigationIcon = AppCompatResources.getDrawable(
+                            this@MainActivity,
+                            R.drawable.ic_arrow_back
+                        )
+                        setNavigationOnClickListener {
+                            onBackPressed()
+                        }
+                    }
+
+                    supportActionBar?.setDisplayHomeAsUpEnabled(true)
+                }
+                CityFragment.TAG -> {
+                    binding.topAppBar.apply {
+                        title = "City with Landmarks"
+                        navigationIcon = AppCompatResources.getDrawable(
+                            this@MainActivity,
+                            R.drawable.ic_arrow_back
+                        )
+                        setNavigationOnClickListener {
+                            onBackPressed()
+                        }
+                    }
+
+                    supportActionBar?.setDisplayHomeAsUpEnabled(true)
+                }
+                LandmarkFragment.TAG -> {
+                    binding.topAppBar.apply {
+                        title = "Landmark"
+                        navigationIcon = AppCompatResources.getDrawable(
+                            this@MainActivity,
+                            R.drawable.ic_arrow_back
+                        )
+                        setNavigationOnClickListener {
+                            onBackPressed()
+                        }
+                    }
+
+                    supportActionBar?.setDisplayHomeAsUpEnabled(true)
+                }
                 else -> {
                     binding.topAppBar.title = "Travel App"
                     supportActionBar?.setDisplayHomeAsUpEnabled(false)
@@ -60,4 +103,13 @@ class MainActivity : AppCompatActivity() {
         dbHelper?.close()
         super.onDestroy()
     }
+
+    fun showDialog(dialog: Dialog) {
+        if (lastDialog?.isShowing == true)
+            lastDialog?.dismiss()
+
+        dialog.show()
+        lastDialog = dialog
+    }
+
 }
